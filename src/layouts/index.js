@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
 import Link from "gatsby-link";
-import { Segment, Icon, Container, Sidebar, Button } from "semantic-ui-react";
+import { Segment, Icon, Container, Sidebar } from "semantic-ui-react";
 
-// import HeaderMenu from "../components/HeaderMenu/HeaderMenu";
-// import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
+import HeaderMenu from "../components/HeaderMenu/HeaderMenu";
+import SidebarMenu from "../components/SidebarMenu/SidebarMenu";
 import config from "../../data/SiteConfig";
 
 import "../css/styles.css";
@@ -18,7 +18,7 @@ export const menuItems = [
   { name: "Blog", path: "/blog/", exact: false, icon: "newspaper" },
 ];
 
-export default class MainLayout extends Component {
+class MainLayout extends Component {
   getLocalTitle() {
     function capitalize(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
@@ -62,17 +62,19 @@ export default class MainLayout extends Component {
     return (
       <div>
         <Helmet>
-          <title>{`${config.siteTitle} |  ${this.getLocalTitle()}`}</title>
+          <title>{`${config.siteTitle} | ${this.getLocalTitle()}`}</title>
           <meta name="description" content={config.siteDescription} />
         </Helmet>
 
         <Sidebar.Pushable as={Segment}>
-          {/* <SidebarMenu Link={Link} pathname={pathname} items={menuItems} visible={false} /> */}
+          <SidebarMenu Link={Link} pathname={pathname} items={menuItems} visible={false} />
           <Sidebar.Pusher style={{ minHeight: "100vh" }}>
             {/* Header */}
-            {/* {isHome ? null : <HeaderMenu
-              Link={Link} pathname={pathname} items={menuItems}
-            />} */}
+            {isHome ? null : <HeaderMenu
+              Link={Link}
+              pathname={pathname}
+              items={menuItems}
+            />}
 
             {/* Render children pages */}
             <div style={{ paddingBottom: 60 }}>
@@ -91,3 +93,5 @@ export default class MainLayout extends Component {
     );
   }
 }
+
+export default MainLayout;

@@ -1,15 +1,15 @@
 {
   "extends": ["airbnb", "prettier"],
-  "plugins": ["react", "jsx-a11y", "import"],
-  "rules": {
-    "react/prefer-stateless-function": "off",
-    "react/prop-types": "off",
-    "react/no-danger": "off"
-  },
+  "plugins": ["react", "prettier", "import", "jsx-a11y"],
   "settings": {
     "import/core-modules": []
   },
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }

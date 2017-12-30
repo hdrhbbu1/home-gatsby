@@ -5,6 +5,7 @@ const pathPrefix = config.pathPrefix === "/" ? "" : config.pathPrefix;
 module.exports = {
   pathPrefix: config.pathPrefix,
   siteMetadata: {
+    title: "AquaBuBu",
     siteUrl: config.siteUrl + pathPrefix,
     rssMetadata: {
       site_url: config.siteUrl + pathPrefix,
@@ -16,8 +17,13 @@ module.exports = {
       copyright: config.copyright
     }
   },
+  mapping: {
+    'MarkdownRemark.frontmatter.author': `AuthorJson`
+  },
   plugins: [
     "gatsby-plugin-react-helmet",
+
+    // Expose `/content/${config.blogPostDir}` to graphQL layer
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -25,6 +31,8 @@ module.exports = {
         path: `${__dirname}/content/${config.blogPostDir}`
       }
     },
+
+    // Parse all markdown files (each plugin add/parse some data into graphQL layer)
     {
       resolve: "gatsby-transformer-remark",
       options: {
@@ -32,7 +40,8 @@ module.exports = {
           {
             resolve: "gatsby-remark-images",
             options: {
-              maxWidth: 690
+              maxWidth: 690,
+              backgroundColor: `#f7f0eb`
             }
           },
           {
@@ -44,6 +53,14 @@ module.exports = {
         ]
       }
     },
+
+    // Parse all images files
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    
+    // Parse JSON files
+    `gatsby-transformer-json`,
+
     {
       resolve: "gatsby-plugin-google-analytics",
       options: {
@@ -56,10 +73,15 @@ module.exports = {
         color: config.themeColor
       }
     },
-    "gatsby-plugin-sharp",
+
     "gatsby-plugin-catch-links",
     "gatsby-plugin-twitter",
     "gatsby-plugin-sitemap",
+
+    // This plugin takes your configuration and generates a
+    // web manifest file so your website can be added to your
+    // homescreen on Android.
+    /* eslint-disable camelcase */
     {
       resolve: "gatsby-plugin-manifest",
       options: {
@@ -84,6 +106,12 @@ module.exports = {
         ]
       }
     },
+    /* eslint-enable camelcase */
+
+    // This plugin generates a service worker and AppShell
+    // html file so the site works offline and is otherwise
+    // resistant to bad networks. Works with almost any
+    // site!
     "gatsby-plugin-offline",
     {
       resolve: "gatsby-plugin-feed",
